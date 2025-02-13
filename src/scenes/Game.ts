@@ -7,7 +7,8 @@ export class Game extends Scene
     cursor : Phaser.Types.Input.Keyboard.CursorKeys;
     stars : Phaser.Physics.Arcade.Group;
     score = 0;
-    scoreText: any;
+    scoreText : any;
+    bombs : Phaser.Physics.Arcade.Group;
 
     constructor ()
     {
