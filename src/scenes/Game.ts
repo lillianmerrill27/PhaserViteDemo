@@ -3,9 +3,9 @@ import { Scene } from 'phaser';
 export class Game extends Scene
 {
     platforms: Phaser.Physics.Arcade.StaticGroup;
-    player : Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+    player : Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     cursor : Phaser.Types.Input.Keyboard.CursorKeys;
-
+    stars : Phaser.Physics.Arcade.Group;
 
     constructor ()
     {
@@ -43,6 +43,31 @@ export class Game extends Scene
         this.platforms.create(50, 250, 'ground');
         this.platforms.create(750, 220, 'ground');
 
+        //not static group because its not static!
+        // curly braces creates object
+        // properties = labels for values, labels generally strings
+        this.stars = this.physics.add.group({
+            key: 'star',
+                //tells us to determine image we create
+            repeat: 11,
+                // tells us how many times- e.g.; 1, repeat 11 times, = 12
+            setXY: {
+                // object within object!
+                x: 12,
+                y: 0,
+                stepX: 70,
+            }
+        });
+
+        // choses random bounce between two numbers
+        this.stars.children.iterate( (star:any) => {
+            star.setBounceY(Phaser.Math.FloatBetween(0.4,0.8))
+            return null;
+        })
+
+        // sets thing effected by collider, & collider object
+        this.physics.add.collider(this.stars, this.platforms)
+
         this.player = this.physics.add.sprite(100,450, 'dude')
 
         this.player.setBounce(0.2);
@@ -71,7 +96,6 @@ export class Game extends Scene
     });
 
     
-
     }
 
     update()
