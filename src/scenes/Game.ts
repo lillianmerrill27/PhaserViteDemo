@@ -65,13 +65,21 @@ export class Game extends Scene
             return null;
         })
 
-        // sets thing effected by collider, & collider object
-        this.physics.add.collider(this.stars, this.platforms)
-
         this.player = this.physics.add.sprite(100,450, 'dude')
 
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
+
+        // sets thing effected by collider, & collider object
+        this.physics.add.collider(this.stars, this.platforms)
+        //call back = function that calls another func
+        this.physics.add.overlap(
+            this.player,
+            this.stars,
+            (player: any, star: any) => { star.disableBody(true,true); },
+            undefined, 
+            this
+        );
 
         this.physics.add.collider(this.player, this.platforms)
 
